@@ -16,6 +16,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class JsonConverter {
@@ -45,28 +46,32 @@ public class JsonConverter {
         // 读取 strings
         HashMap<String, String> map = new HashMap<>();
         String[] sp = strings.split("\n");
-        for (int i = 0; i < sp.length - 1; i++) {
+        for (int i = 0; i < sp.length - 1;) {
             String line1 = getPlainText(sp[i]);
-            String next1 = getPlainText(sp[i + 1]);
+            String next1 = getPlainText(sp[++i]);
             map.put(line1, next1);
         }
 
         // 修改 json
         JsonElement jsonElement = JsonParser.parseString(json);
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        for (String key : jsonObject.keySet()) {
+
+        Set<String> keySet = jsonObject.keySet();
+        for (String key : keySet) {
             String value = map.get(key);
             if (value == null) {
                 System.out.println("strings不存在此键: " + key);
                 continue;
             }
             // 防止误改
-            if (jsonObject.keySet().contains(value)) {
+            if (keySet.contains(value)) {
                 continue;
             }
 
             jsonObject.addProperty(key, value);
         }
+
+        // 保存文件
         try {
             String result = new GsonBuilder().setPrettyPrinting() /* 格式化 */
                     .create().toJson(jsonElement);

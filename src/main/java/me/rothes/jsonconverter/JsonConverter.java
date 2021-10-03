@@ -47,9 +47,9 @@ public class JsonConverter {
         HashMap<String, String> map = new HashMap<>();
         String[] sp = strings.split("\n");
         for (int i = 0; i < sp.length - 1;) {
-            String line1 = getPlainText(sp[i]);
-            String next1 = getPlainText(sp[++i]);
-            map.put(line1, next1);
+            String line = getPlainText(sp[i]);
+            String next = getPlainText(sp[++i]);
+            map.put(line, next);
         }
 
         // 修改 json

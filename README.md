@@ -1,0 +1,2 @@
+# JsonConverter
+For DELTARUNE localization.

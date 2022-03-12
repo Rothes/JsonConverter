@@ -103,8 +103,9 @@ public class CodesMethod implements ConvertMethod {
                     if (primitive == null) {
                         System.out.println("英文语言 json 缺少此键: " + key + "     ");
                         map.put(key, new EnLocale(key, EnLocale.LocaleType.LANG_KEY));
+                    } else {
+                        map.put(key, new EnLocale(primitive.getAsString(), EnLocale.LocaleType.STRING));
                     }
-                    map.put(key, new EnLocale(primitive.getAsString(), EnLocale.LocaleType.STRING));
                 } else {
                     map.put(key, new EnLocale(key, EnLocale.LocaleType.LANG_KEY));
                 }
